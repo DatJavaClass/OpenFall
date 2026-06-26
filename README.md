@@ -2,6 +2,8 @@
 
 <h1 align="center">OpenFall</h1>
 
+<p align="center"><em>From the insomnia-ridden mind of DatJavaClass</em></p>
+
 <p align="center"><em>An autosaving digital journal and odd-ball file examiner. Your documents are <strong>leaves</strong>, and they never get lost.</em></p>
 
 <p align="center">
