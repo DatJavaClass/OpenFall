@@ -1,0 +1,43 @@
+# OpenFall — electron-builder config.
+# Consumed by `electron-builder --win/--linux` (see package.json scripts).
+# No code signing: no win/mac identity is configured, and mac.identity is null,
+# so set CSC_IDENTITY_AUTO_DISCOVERY=false in CI to skip signing discovery.
+appId: com.openfall.app
+productName: OpenFall
+
+directories:
+  output: release
+
+# Ship the built renderer, the compiled main/preload, and the manifest.
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - build/icon.png
+  - package.json
+
+asar: true
+
+win:
+  target:
+    - nsis
+    - portable
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+
+linux:
+  target:
+    # tar.gz builds cross-platform (incl. from Windows). AppImage/deb need a
+    # Linux host (mksquashfs/dpkg) — config is ready; build there with package:linux.
+    - tar.gz
+    - AppImage
+    - deb
+  category: Utility
+
+# mac is optional; harmless to declare. Signing is disabled (identity: null).
+mac:
+  target:
+    - dmg
+  category: public.app-category.productivity
+  identity: null

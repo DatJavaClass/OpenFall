@@ -1,0 +1,76 @@
+/* OpenFall — base layout. Component-level styles live alongside their modules
+   or are appended here as the app grows. */
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: transparent;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  user-select: none;
+}
+
+#root { position: relative; }
+
+/* The whole app sits on a transparent backdrop. In the browser/dev build we
+   paint a checkerboard to *represent* transparency; in Electron the OS window is
+   genuinely transparent and the checkerboard is hidden (body[data-platform=electron]). */
+.of-root { position: fixed; inset: 0; }
+
+.of-backdrop {
+  position: absolute;
+  inset: 0;
+  /* Web/portable has no real OS transparency, so paint a calm solid desktop tone
+     instead of the checkerboard placeholder. Hidden under real Electron
+     transparency (body[data-platform=electron]). */
+  background: linear-gradient(155deg, var(--check1), var(--check2));
+}
+body[data-platform="electron"] .of-backdrop { display: none; }
+
+/* Window geometry. Web/portable uses smaller margins (no real transparency to
+   fill there → more room for the editor, esp. with Other View); Electron gets the
+   full overhang under real OS transparency. */
+:root {
+  --inset-x: 114px;
+  --inset-y: 16px;
+  --rail-w: 104px;
+  --overhang: 96px;
+}
+body[data-platform="electron"] {
+  --inset-x: 140px;
+  --inset-y: 20px;
+  --rail-w: 130px;
+  --overhang: 122px;
+}
+
+/* The program body: a rounded rectangle inset from the window bounds so the
+   bookmark rails can overhang into the margin. overflow:visible is essential —
+   the ribbons must not be clipped. */
+.of-window {
+  position: absolute;
+  left: var(--inset-x);
+  right: var(--inset-x);
+  top: var(--inset-y);
+  bottom: var(--inset-y);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 12px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border);
+  overflow: visible;
+}
+
+/* Separate View: a focused single-leaf window — thin margin, no rails. */
+.of-window-sep { left: 10px; right: 10px; top: 10px; bottom: 10px; }
+
+button { font-family: inherit; }
+input, textarea { font-family: inherit; }
+
+/* Hidden scrollbars where the design calls for a clean edge; real panes opt in. */
+.of-noscroll::-webkit-scrollbar { width: 0; height: 0; }

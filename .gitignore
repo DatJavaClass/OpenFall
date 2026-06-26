@@ -1,0 +1,28 @@
+node_modules/
+dist/
+dist-electron/
+dist-portable/
+release/
+coverage/
+.vite/
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.env.local
+
+# AI assistant instructions — kept private
+CLAUDE.md
+**/CLAUDE.md
+
+# Internal build/design notes — not part of the public repo
+BUILD_LOG.md
+MORNING_REPORT.md
+AUDIT.md
+docs/design/
+
+# Throwaway capture/diagnostic scripts
+scripts/_*.mjs
+
+# Editor / tool temp leftovers
+*.tmp.*

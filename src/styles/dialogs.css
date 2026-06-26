@@ -1,0 +1,135 @@
+/* OpenFall — dialog-specific styling. Owned by the dialogs module so it can be
+   elevated to the hi-fi spec (BEHAVIOR_SPEC §8 + README §8) without touching
+   components.css. Shared primitives (.of-dialog*, .of-pill, .of-btn, .of-field)
+   live in components.css; dialog layout + the toggle switch live here.
+
+   Imported by main.tsx AFTER components.css, so equal-specificity rules here win.
+   Every color is a CSS variable — both themes resolve from tokens.css. */
+
+/* ---------- padded body (Export / Interval / Sort / About / Shortcuts) ---------- */
+.of-dialog-body { padding: 18px 20px; }
+
+/* ---------- split dialogs (Preferences, Find & Transform): nav + pane ---------- */
+.of-dialog-split { flex: 1; min-height: 0; display: flex; }
+.of-dialog-nav {
+  flex: none; border-right: 1px solid var(--border);
+  padding: 10px; display: flex; flex-direction: column; gap: 2px;
+}
+.of-dialog-nav.prefs { width: 180px; }
+.of-dialog-nav.find { width: 158px; }
+.of-dialog-pane { flex: 1; min-width: 0; overflow-y: auto; padding: 20px 24px; }
+.of-dialog-pane.find { padding: 18px 20px; }
+
+.of-nav-item {
+  padding: 8px 11px; border-radius: 6px; cursor: pointer;
+  font: 400 12.5px 'IBM Plex Sans', sans-serif; color: var(--muted);
+  white-space: nowrap; user-select: none; transition: background .12s, color .12s;
+}
+.of-nav-item:hover { background: var(--chrome); color: var(--text); }
+.of-nav-item.on,
+.of-nav-item.on:hover { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+
+/* ---------- section / field labels ---------- */
+.of-sec-title {
+  font: 600 13px 'IBM Plex Sans', sans-serif; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 16px;
+}
+.of-sub-label { font: 500 13px 'IBM Plex Sans', sans-serif; color: var(--text); margin-bottom: 8px; }
+.of-hint { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+.of-hint.block { margin-bottom: 14px; }
+.of-hint.note { margin-top: 10px; }
+
+/* ---------- pill rows + horizontal label/control rows ---------- */
+.of-pill-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.of-pill-row.gap22 { margin-bottom: 22px; }
+
+.of-form-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.of-form-row:last-child { margin-bottom: 0; }
+.of-form-label { width: 130px; flex: none; font: 500 13px 'IBM Plex Sans', sans-serif; color: var(--text); }
+
+/* font-size slider + live value */
+.of-slider { flex: 1; accent-color: var(--accent); }
+.of-slider-val { width: 46px; text-align: right; font: 400 12px 'IBM Plex Mono', monospace; color: var(--muted); }
+
+/* dialog text fields default to the editor surface; a .mono variant for paths/queries */
+.of-dialog .of-field { background: var(--editor); }
+.of-field.mono { font: 400 12px 'IBM Plex Mono', monospace; }
+.of-input-row { display: flex; gap: 8px; }
+.of-input-row .of-field { flex: 1; }
+.of-input-row .of-btn { white-space: nowrap; flex: none; }
+
+/* ---------- toggle switch (reusable) ---------- */
+.of-toggle {
+  width: 36px; height: 20px; flex: none; padding: 0; border: 0;
+  border-radius: 11px; background: var(--border); position: relative;
+  cursor: pointer; transition: background .15s ease;
+}
+.of-toggle.on { background: var(--accent); }
+.of-toggle-dot {
+  position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--muted);
+  transition: left .15s ease, background .15s ease;
+}
+.of-toggle.on .of-toggle-dot { left: 18px; background: var(--accent-ink); }
+
+/* toggle rows (Editor section + File Associations) */
+.of-toggle-row {
+  display: flex; align-items: center; gap: 12px; padding: 11px 0;
+  border-bottom: 1px solid var(--border); cursor: pointer;
+  background: none; border-left: 0; border-right: 0; border-top: 0;
+  width: 100%; text-align: left; color: inherit; font: inherit;
+}
+.of-toggle-row:last-child { border-bottom: 0; }
+.of-toggle-row:hover .of-toggle:not(.on) { background: var(--muted); }
+.of-toggle-text { flex: 1; min-width: 0; }
+.of-toggle-label { font: 500 13px 'IBM Plex Sans', sans-serif; color: var(--text); }
+.of-toggle-desc { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.of-assoc-ext { font: 500 12px 'IBM Plex Mono', monospace; color: var(--text); flex: none; width: 64px; }
+.of-assoc-desc { font-size: 12px; color: var(--muted); flex: 1; }
+
+/* ---------- plugins ---------- */
+.of-plugin-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+.of-plugin-row:last-child { border-bottom: 0; }
+.of-plugin-icon {
+  width: 30px; height: 30px; flex: none; border-radius: 7px;
+  background: var(--editor); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent); font-size: 14px;
+}
+.of-plugin-meta { flex: 1; min-width: 0; }
+.of-plugin-name { font: 500 13px 'IBM Plex Sans', sans-serif; color: var(--text); }
+.of-plugin-desc { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+
+/* ---------- Find & Transform form ---------- */
+.of-field-group { margin-bottom: 14px; }
+.of-field-group:last-of-type { margin-bottom: 0; }
+.of-field-label { font: 500 12px 'IBM Plex Sans', sans-serif; color: var(--muted); margin-bottom: 5px; }
+.of-field-group .of-field + .of-field { margin-top: 8px; }
+
+.of-opts { display: flex; gap: 14px; margin: 14px 0 18px; }
+.of-opt { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); cursor: pointer; }
+.of-opt input { accent-color: var(--accent); margin: 0; }
+
+.of-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+/* ---------- Export As… cards ---------- */
+.of-export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.of-export-card {
+  display: flex; flex-direction: column; gap: 3px; padding: 12px 14px;
+  border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+  background: var(--editor); text-align: left; transition: border-color .12s;
+}
+.of-export-card:hover { border-color: var(--accent); }
+.of-export-ext { font: 600 13px 'IBM Plex Mono', monospace; color: var(--text); }
+.of-export-name { font-size: 11px; color: var(--muted); }
+
+/* ---------- About / Shortcuts ---------- */
+.of-about p { line-height: 1.7; margin: 0 0 12px; }
+.of-about p:last-child { margin-bottom: 0; }
+.of-about .ver { color: var(--faint); }
+.of-shortcut-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.of-shortcut-row:last-child { border-bottom: 0; }
+.of-shortcut-key { font: 11px 'IBM Plex Mono', monospace; color: var(--accent); }

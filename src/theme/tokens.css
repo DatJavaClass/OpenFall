@@ -1,0 +1,68 @@
+/* OpenFall design tokens — authoritative hex values from the design handoff.
+   Default = dark. data-theme="light" on <html> swaps to light.
+   "Match system" is resolved in JS (prefers-color-scheme) → sets data-theme. */
+
+:root {
+  /* surfaces */
+  --bg: #1a1611;          /* window body background */
+  --chrome: #221d16;      /* title/menu/toolbar/status bars */
+  --chrome2: #2b251c;     /* dropdowns, dialogs, hover */
+  --editor: #1d1813;      /* editor surface */
+  /* text */
+  --text: #ece4d3;        /* primary */
+  --muted: #9a8f79;       /* secondary text/icons */
+  --faint: #615a4c;       /* tertiary / line numbers */
+  /* lines */
+  --border: #363025;
+  /* accent (brass) */
+  --accent: #cf9a45;
+  --accent-ink: #1a1611;  /* text/icon on accent */
+  /* bookmark ribbons */
+  --tab: #26211a;         /* inactive */
+  --tab-active: #322b21;  /* active */
+  /* editor extras */
+  --paper-line: rgba(207, 154, 69, 0.06); /* ruled lines */
+  --sel: rgba(207, 154, 69, 0.22);        /* selection / match highlight */
+  /* depth */
+  --shadow: rgba(0, 0, 0, 0.45);
+  --over: rgba(8, 6, 3, 0.55);            /* modal overlay */
+  /* transparency checkerboard (web/dev fallback — real OS transparency in Electron) */
+  --check1: #262320;
+  --check2: #1b1813;
+  /* terminal results panel */
+  --terminal-bg: #0f0b07;
+
+  /* syntax-highlight token colors (code examiner) — theme-independent */
+  --tok-keyword: #d28fae;
+  --tok-string: #9fb87a;
+  --tok-number: #74b8b8;
+  --tok-function: #d6a95a;
+  --tok-literal: var(--accent);   /* true/false/null/undefined/NaN */
+  --tok-comment: var(--faint);    /* italic */
+  --tok-property: #8aa6d6;        /* object keys / Type names */
+  --tok-type: #8aa6d6;
+  --tok-punct: var(--muted);
+  --tok-ident: var(--text);
+}
+
+[data-theme="light"] {
+  --bg: #e7decb;
+  --chrome: #efe7d6;
+  --chrome2: #e1d8c3;
+  --editor: #f6f0e2;
+  --text: #332c20;
+  --muted: #7c715b;
+  --faint: #a99d83;
+  --border: #cabd9f;
+  --accent: #a06a1c;
+  --accent-ink: #fff8ea;
+  --tab: #e7decb;
+  --tab-active: #f6f0e2;
+  --paper-line: rgba(160, 106, 28, 0.08);
+  --sel: rgba(160, 106, 28, 0.18);
+  --shadow: rgba(120, 95, 45, 0.22);
+  --over: rgba(120, 100, 60, 0.28);
+  --check1: #d6cdb8;
+  --check2: #c7bca4;
+  --terminal-bg: #1d1813;
+}
