@@ -1,5 +1,4 @@
-// OpenFall — AppWindow: assembles the chrome, the overhanging bookmark rails, the
-// workspace, overlays, and dialogs; hydrates state and starts the autosave loop.
+// App shell: chrome, rails, workspace, overlays, dialogs.
 import { useEffect, useState } from 'react'
 import { TitleBar } from './components/TitleBar'
 import { MenuBar } from './components/MenuBar'
@@ -48,8 +47,7 @@ export function App() {
         else if (ui.resultsView) ui.setResultsView(null)
         return
       }
-      // Leaf navigation — Alt+Arrow always; Shift+Arrow only when NOT in a text
-      // field (Shift+Arrow selects text in the editor).
+      // Alt+Arrow always; Shift+Arrow only outside text fields.
       if (e.key.startsWith('Arrow') && (e.altKey || e.shiftKey)) {
         const el = document.activeElement
         const inText = !!el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT')

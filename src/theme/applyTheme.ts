@@ -1,5 +1,4 @@
-// OpenFall — theme resolution. "system" follows prefers-color-scheme; switching
-// is instant (swap the data-theme attribute on <html>).
+// Theme resolution; "system" follows prefers-color-scheme.
 import type { ResolvedTheme, ThemeChoice } from '../types'
 
 export function resolveTheme(theme: ThemeChoice): ResolvedTheme {
@@ -15,7 +14,7 @@ export function applyTheme(theme: ThemeChoice): void {
   document.documentElement.setAttribute('data-theme', resolveTheme(theme))
 }
 
-/** Re-apply when the OS theme changes, but only while the choice is "system". */
+/** Re-apply on OS change while choice is "system". */
 export function watchSystemTheme(getTheme: () => ThemeChoice): () => void {
   if (typeof window === 'undefined' || !window.matchMedia) return () => {}
   const mq = window.matchMedia('(prefers-color-scheme: light)')

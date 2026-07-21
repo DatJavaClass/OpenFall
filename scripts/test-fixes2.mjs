@@ -1,5 +1,5 @@
-// Verify: single-line code detection, Categories dropdown assign, and Separate
-// acting on the FOCUSED (Other-View secondary) pane — on the portable file://.
+/* Verify: single-line code detection, Categories dropdown assign, and Separate
+   acting on the FOCUSED (Other-View secondary) pane, on the portable file://. */
 import { chromium } from 'playwright'
 const file = 'file:///C:/Users/victo/Dropbox/Working/Projects/OpenFall/dist-portable/index.html'
 const dir = (process.argv[2] || '.').replace(/\\/g, '/').replace(/\/?$/, '/')

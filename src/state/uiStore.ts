@@ -1,5 +1,5 @@
-// OpenFall — transient UI state (never persisted): open menus, dialogs, the
-// inline-rename target, search inputs/results, the autosave "Saved Ns" clock, etc.
+/* OpenFall: transient UI state (never persisted): open menus, dialogs, the
+   inline-rename target, search inputs/results, the autosave "Saved Ns" clock, etc. */
 import { create } from 'zustand'
 import type {
   DialogName,
@@ -34,7 +34,7 @@ interface UiState {
   searchResults: SearchGroup[]
   otherLeafId: string | null
   /** The leaf in the pane the user last interacted with (primary or Other-View
-   *  secondary) — what Separate View / Categories act on. */
+   *  secondary), what Separate View / Categories act on. */
   focusedLeafId: string | null
   lastSavedAt: number
   savedAgo: number
@@ -61,7 +61,7 @@ interface UiState {
   setFocusedLeaf(id: string | null): void
   markSaved(at: number): void
   setSavedAgo(s: number): void
-  /** Close click-dismissable popovers (menus, tool dropdowns, context menu) — not dialogs. */
+  /** Close click-dismissable popovers (menus, tool dropdowns, context menu), not dialogs. */
   closeAllPopovers(): void
 }
 

@@ -1,7 +1,7 @@
-// OpenFall — JS/TS syntax tokenizer for the read-only "code examiner".
-// Pure, dependency-free. Ported from docs/design/reference/tokenizeJS.js.
-// Whitespace/newlines are preserved in token text, so rendering tokens in a
-// white-space:pre container reproduces the source exactly.
+/* OpenFall: JS/TS syntax tokenizer for the read-only "code examiner".
+   Pure, dependency-free. Ported from docs/design/reference/tokenizeJS.js.
+   Whitespace/newlines are preserved in token text, so rendering tokens in a
+   white-space:pre container reproduces the source exactly. */
 
 export type TokenKind =
   | 'keyword'

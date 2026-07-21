@@ -263,17 +263,17 @@ describe('sortLeaves — per-rail (left then right)', () => {
     expect(sortLeaves(catLeaves, 'category', 'desc').map((l) => l.id)).toEqual(['lB', 'lA', 'rD', 'rC'])
   })
 
-  // LEAD: possible bug — the `category` comparator uses '~~~' as a sentinel for a
-  // null category, assuming code-point ordering where '~' (0x7E) sorts AFTER all
-  // letters, so uncategorized leaves land last. But it compares via
-  // String.prototype.localeCompare, which uses ICU collation where '~'
-  // (punctuation) sorts BEFORE letters. Result: uncategorized (null) leaves sort
-  // FIRST in ascending order, not LAST as the spec/comment ("uncategorized last")
-  // requires. Observed in this repo's Node/ICU env:
-  //   sortLeaves([{category:'B'},{category:null}], 'category', 'asc') => [null, 'B'].
-  // Fix idea: don't rely on a string sentinel — compare null explicitly
-  // (push nulls to the end) instead of mapping to '~~~'.
-  // FIXED by the lead: comparator now handles null explicitly (nulls last in asc).
+  /* LEAD: possible bug, the `category` comparator uses '~~~' as a sentinel for a
+     null category, assuming code-point ordering where '~' (0x7E) sorts AFTER all
+     letters, so uncategorized leaves land last. But it compares via
+     String.prototype.localeCompare, which uses ICU collation where '~'
+     (punctuation) sorts BEFORE letters. Result: uncategorized (null) leaves sort
+     FIRST in ascending order, not LAST as the spec/comment ("uncategorized last")
+     requires. Observed in this repo's Node/ICU env:
+       sortLeaves([{category:'B'},{category:null}], 'category', 'asc') => [null, 'B'].
+     Fix idea: don't rely on a string sentinel; compare null explicitly
+     (push nulls to the end) instead of mapping to '~~~'.
+     FIXED by the lead: comparator now handles null explicitly (nulls last in asc). */
   it('category asc: uncategorized (null) sorts LAST [spec]', () => {
     const leaves = [
       mk({ id: 'B', side: 'left', category: 'B' }),

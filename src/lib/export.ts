@@ -1,6 +1,6 @@
-// OpenFall — export/convert engine. Best-effort conversion of a leaf to a small
-// set of formats (ARCHITECTURE → Export). Pure for text formats; PDF is produced
-// by the platform layer from the HTML rendering (Electron printToPDF / browser print).
+/* OpenFall: export/convert engine. Best-effort conversion of a leaf to a small
+   set of formats. Pure for text; PDF is produced by the platform layer from the
+   HTML rendering (Electron printToPDF / browser print). */
 import type { Leaf } from '../types'
 
 export type ExportFormat = 'txt' | 'md' | 'html' | 'pdf' | 'json' | 'rtf'
@@ -42,8 +42,7 @@ function escapeHtml(s: string): string {
 export function markdownToHtml(src: string): string {
   const lines = src.split('\n')
   const out: string[] = []
-  let inList = false
-  let inCode = false
+  let inList = false, inCode = false
 
   const inline = (s: string): string => {
     let t = escapeHtml(s)

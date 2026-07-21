@@ -1,6 +1,6 @@
-// OpenFall — Quick Search engines. The toolbar's quick-search bar opens a leaf
-// that shows the results for one of these (a locked-down web view in the desktop
-// app; a new browser tab in the portable/web client).
+/* OpenFall: Quick Search engines. The toolbar's quick-search bar opens a leaf
+   that shows the results for one of these (a locked-down web view in the desktop
+   app; a new browser tab in the portable/web client). */
 import type { SearchEngine } from '../types'
 
 export const ENGINES: Array<{ id: SearchEngine; label: string; url: string }> = [

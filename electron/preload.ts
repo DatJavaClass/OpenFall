@@ -1,9 +1,7 @@
-// OpenFall — Electron preload.
-//
-// Exposes a minimal, typed `window.openfall` bridge (contextIsolation ON) that
-// the renderer's ElectronAdapter consumes (see src/platform/adapter.ts →
-// OpenFallBridge). No Node or Electron internals leak to the page — only the
-// wrapped functions below cross the contextBridge.
+/* OpenFall: Electron preload. Exposes a minimal typed `window.openfall` bridge
+   (contextIsolation ON) that the renderer's ElectronAdapter consumes (see
+   src/platform/adapter.ts, OpenFallBridge). No Node/Electron internals leak to
+   the page; only the wrapped functions below cross the contextBridge. */
 
 import { contextBridge, ipcRenderer } from 'electron'
 
@@ -43,13 +41,12 @@ const openfall = {
     ipcRenderer.send('of:winctl', action)
   },
 
-  // Separate View — pop a leaf into its own window.
+  // Separate View: pop a leaf into its own window.
   separateWindow: (leafId: string): void => {
     ipcRenderer.send('of:separate', leafId)
   },
 
-  // Window bounds, for the custom resize grips (the frameless window's real
-  // edges sit out in the transparent margin and are awkward to grab).
+  // Window bounds for the custom resize grips (real edges sit out in the margin).
   getBounds: (): Promise<unknown> => ipcRenderer.invoke('of:getBounds'),
   setBounds: (rect: unknown): void => {
     ipcRenderer.send('of:setBounds', rect)
@@ -60,8 +57,8 @@ const openfall = {
     ipcRenderer.send('of:print', html)
   },
 
-  // Optional: notify the renderer when the OS maximize state changes so it can
-  // swap the maximize/restore glyph. Re-registering replaces any prior listener.
+  /* Notify renderer on OS maximize change to swap the glyph.
+     Re-registering replaces any prior listener. */
   onMaximizeChange: (cb: (maximized: boolean) => void): void => {
     ipcRenderer.removeAllListeners('of:maximized')
     ipcRenderer.on('of:maximized', (_e, maximized: boolean) => cb(maximized))

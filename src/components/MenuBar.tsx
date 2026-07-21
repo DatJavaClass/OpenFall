@@ -1,4 +1,4 @@
-// OpenFall — menu bar: File · Search · Edit · View · Preferences · Plugins · ?
+// Menu bar: File, Search, Edit, View, Prefs, Plugins.
 import { useSettingsStore } from '../state/settingsStore'
 import { useUiStore } from '../state/uiStore'
 import { cmd } from '../commands'

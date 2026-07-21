@@ -5,7 +5,7 @@ import { useSettingsStore } from '../src/state/settingsStore'
 import { DEFAULT_SETTINGS, SEED_CATEGORIES } from '../src/lib/seed'
 import type { Leaf, PersistedSnapshot } from '../src/types'
 
-// ---- fixtures -------------------------------------------------------------
+// Fixtures
 const mk = (over: Partial<Leaf> = {}): Leaf => ({
   id: 'id',
   side: 'left',
@@ -26,17 +26,14 @@ const leaves = () => useLeavesStore.getState().leaves
 const settings = () => useSettingsStore.getState().settings
 
 beforeEach(() => {
-  // Deterministic first-run conditions: empty stores + empty localStorage.
-  // getAdapter() resolves to the WebAdapter in jsdom (no window.openfall), so
-  // load()/save() hit real localStorage — no mocking needed.
+  /* Deterministic first run: empty stores + empty localStorage.
+     jsdom uses the WebAdapter, hits real localStorage, no mocking. */
   resetLeaves()
   resetSettings()
   localStorage.clear()
 })
 
-// ===========================================================================
 // getSnapshot
-// ===========================================================================
 describe('getSnapshot', () => {
   it('reflects the current state of both stores', () => {
     const fixtureLeaves = [mk({ id: 'a' }), mk({ id: 'b', side: 'right' })]
@@ -55,9 +52,7 @@ describe('getSnapshot', () => {
   })
 })
 
-// ===========================================================================
-// applySnapshot  (inverse of getSnapshot)
-// ===========================================================================
+// applySnapshot (inverse of getSnapshot)
 describe('applySnapshot', () => {
   it('populates both stores from a snapshot', () => {
     const snap: PersistedSnapshot = {
@@ -74,8 +69,8 @@ describe('applySnapshot', () => {
   })
 
   it('is the inverse of getSnapshot — a full round-trip restores the captured state', () => {
-    // Arrange a fully-specified state (non-empty categories + a real activeLeafId
-    // so applySnapshot keeps them verbatim rather than applying its fallbacks).
+    /* Arrange a fully-specified state (non-empty categories + a real activeLeafId
+       so applySnapshot keeps them verbatim rather than applying its fallbacks). */
     useLeavesStore.getState().replace({
       leaves: [mk({ id: 'a', content: 'alpha' }), mk({ id: 'b', side: 'right', custom: true, name: 'B' })],
       activeLeafId: 'a',
@@ -121,9 +116,7 @@ describe('applySnapshot', () => {
   })
 })
 
-// ===========================================================================
-// hydrate  (+ persistence round-trip through localStorage via saveNow)
-// ===========================================================================
+// hydrate: persistence round-trip through localStorage
 describe('hydrate', () => {
   it('seeds the 7 sample leaves and the seed categories on first run (empty storage)', async () => {
     await hydrate()
@@ -163,8 +156,8 @@ describe('hydrate', () => {
   })
 
   it('treats a stored snapshot with an empty leaves array as first run (re-seeds)', async () => {
-    // The WebAdapter writes whatever getSnapshot() returns; an empty-leaves
-    // snapshot is indistinguishable from first run per hydrate()'s guard.
+    /* The WebAdapter writes whatever getSnapshot() returns; an empty-leaves
+       snapshot is indistinguishable from first run per hydrate()'s guard. */
     useLeavesStore.getState().replace({ leaves: [], activeLeafId: null, categories: [] })
     await saveNow()
     resetLeaves()

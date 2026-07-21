@@ -1,6 +1,6 @@
-// OpenFall — desktop persistence. Thin wrapper over the contextBridge API exposed
-// by electron/preload.ts. Imports NO electron modules itself, so it is safe to
-// include in any bundle; all native work happens in the main process.
+/* OpenFall: desktop persistence. Thin wrapper over the contextBridge API exposed
+   by electron/preload.ts. Imports NO electron modules itself, so it is safe to
+   include in any bundle; all native work happens in the main process. */
 import type {
   PlatformAdapter,
   OpenFallBridge,

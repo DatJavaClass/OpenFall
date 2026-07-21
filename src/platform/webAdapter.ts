@@ -1,5 +1,5 @@
-// OpenFall — web/portable persistence: localStorage snapshot + File System Access
-// API (with graceful fallbacks). This is the universal portable client backend.
+/* OpenFall: web/portable persistence: localStorage snapshot + File System Access
+   API (with graceful fallbacks). This is the universal portable client backend. */
 import type { PlatformAdapter, ExportFileOpts, ExportFileResult, WindowAction, Rect } from './adapter'
 import type { PersistedSnapshot } from '../types'
 
@@ -22,7 +22,7 @@ export class WebAdapter implements PlatformAdapter {
     try {
       localStorage.setItem(KEY, JSON.stringify(snapshot))
     } catch {
-      /* quota or private mode — best effort */
+      /* quota or private mode, best effort */
     }
   }
 
@@ -93,8 +93,8 @@ export class WebAdapter implements PlatformAdapter {
   }
 
   windowControl(action: WindowAction): void {
-    // The main browser window can't self-close, but a Separate-View popup
-    // (opened via window.open) can.
+    /* The main browser window can't self-close, but a Separate-View popup
+       (opened via window.open) can. */
     if (action === 'close') window.close()
   }
 

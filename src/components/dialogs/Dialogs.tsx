@@ -1,7 +1,5 @@
-// OpenFall — modal dialogs (Preferences, Find & Transform, Export As, Auto Save
-// Interval, Sort Leaves, About, Shortcuts), elevated to the hi-fi spec
-// (BEHAVIOR_SPEC §8 + README §8). Store wiring is preserved from the baseline;
-// this pass upgrades layout/visual fidelity only. Layout lives in styles/dialogs.css.
+/* Modal dialogs: Preferences, Find & Transform, Export, Interval, Sort, About, Shortcuts.
+   Layout lives in styles/dialogs.css. */
 import { useState, type ReactNode } from 'react'
 import { useUiStore } from '../../state/uiStore'
 import { useSettingsStore } from '../../state/settingsStore'
@@ -13,7 +11,7 @@ import { cmd } from '../../commands'
 import { ENGINES } from '../../lib/websearch'
 import type { PrefsSection, SearchEngine, SearchMode, SortMode, ThemeChoice } from '../../types'
 
-// ---------- shared primitives ----------
+// Shared primitives
 function Overlay({
   width,
   height,
@@ -49,8 +47,7 @@ const Pill = ({ on, onClick, children }: { on: boolean; onClick: () => void; chi
   </button>
 )
 
-/** A small reusable toggle switch (track + sliding knob). Visual only — the row
- *  owns the click target so the whole row is interactive (see ToggleRow). */
+/** Toggle switch visual; ToggleRow owns the click target. */
 const Toggle = ({ on }: { on: boolean }) => (
   <span className={'of-toggle' + (on ? ' on' : '')} aria-hidden="true">
     <span className="of-toggle-dot" />
@@ -84,7 +81,7 @@ const ToggleRow = ({
   </div>
 )
 
-// Interval pills are shared by Preferences ▸ Autosave and the quick Interval dialog.
+// Interval pills shared by Preferences and Interval dialog.
 const INTERVALS: Array<[number, string]> = [
   [10, '10s'],
   [30, '30s'],
@@ -92,7 +89,7 @@ const INTERVALS: Array<[number, string]> = [
   [300, '5 min'],
 ]
 
-// ---------- Preferences ----------
+// Preferences
 const PREF_SECTIONS: Array<[PrefsSection, string]> = [
   ['appearance', 'Appearance'],
   ['editor', 'Editor'],
@@ -295,7 +292,7 @@ function Preferences() {
   )
 }
 
-// ---------- Find & Transform ----------
+// Find & Transform
 const MODES: Array<[SearchMode, string]> = [
   ['search', 'Search'],
   ['files', 'Search in Files'],
@@ -368,7 +365,7 @@ function FindTransform() {
 
   const stripG = (re: RegExp) => new RegExp(re.source, re.flags.replace('g', ''))
 
-  // Replace / Remove / Add operate on the active leaf's content (baseline logic).
+  // Replace / Remove / Add operate on active leaf content.
   const transformActive = (fn: (content: string, re: RegExp) => string) => {
     const re = compileQuery(query, opts)
     const { leaves, activeLeafId } = useLeavesStore.getState()
@@ -379,23 +376,23 @@ function FindTransform() {
   }
 
   const actionFor = (label: string) => () => {
-    // Search / Find-All / Find Next / Count / Find in Files → open the results panel.
-    if (mode === 'search' || mode === 'files') {
-      cmd.runSearch(view)
-      return
+    // Map the mode to its action; search modes open the results panel.
+    switch (mode) {
+      case 'search':
+      case 'files':
+        cmd.runSearch(view)
+        return
+      case 'remove':
+        if (label === 'Count') cmd.runSearch(view)
+        else transformActive((c, re) => c.replace(re, ''))
+        return
+      case 'replace':
+        // "Replace" strips the global flag; "Replace All" keeps it.
+        transformActive((c, re) => c.replace(label === 'Replace' ? stripG(re) : re, replaceWith))
+        return
+      default: // add
+        transformActive((c) => c.split('\n').map((l) => l + replaceWith).join('\n'))
     }
-    if (mode === 'remove') {
-      if (label === 'Count') cmd.runSearch(view)
-      else transformActive((c, re) => c.replace(re, ''))
-      return
-    }
-    if (mode === 'replace') {
-      // "Replace" → first occurrence (non-global); "Replace All" → global.
-      transformActive((c, re) => c.replace(label === 'Replace' ? stripG(re) : re, replaceWith))
-      return
-    }
-    // add
-    transformActive((c) => c.split('\n').map((l) => l + replaceWith).join('\n'))
   }
 
   return (
@@ -486,7 +483,7 @@ function FindTransform() {
   )
 }
 
-// ---------- Export As ----------
+// Export As
 function ExportAs() {
   const { leaves, activeLeafId } = useLeavesStore()
   const leaf = leaves.find((l) => l.id === activeLeafId)
@@ -519,7 +516,7 @@ function ExportAs() {
   )
 }
 
-// ---------- Auto Save Interval ----------
+// Auto Save Interval
 function Interval() {
   const v = useSettingsStore((s) => s.settings.autosaveInterval)
   return (
@@ -536,7 +533,7 @@ function Interval() {
   )
 }
 
-// ---------- Sort Leaves ----------
+// Sort Leaves
 const SORT_BY: Array<[SortMode, string]> = [
   ['date', 'Date'],
   ['alpha', 'Name'],
@@ -593,7 +590,7 @@ function SortAdv() {
   )
 }
 
-// ---------- About ----------
+// About
 function About() {
   return (
     <Overlay width={420} title="About OpenFall">
@@ -608,7 +605,7 @@ function About() {
   )
 }
 
-// ---------- Keyboard Shortcuts ----------
+// Keyboard Shortcuts
 const SHORTCUTS: Array<[string, string]> = [
   ['New Leaf', 'Ctrl+N'],
   ['Open', 'Ctrl+O'],

@@ -1,5 +1,5 @@
-// OpenFall — shared TypeScript types. Mirror of the design handoff's state shape
-// (docs/design/reference/state-shape.ts), extended for the real app.
+/* OpenFall: shared TypeScript types. Mirror of the design handoff's state shape
+   (docs/design/reference/state-shape.ts), extended for the real app. */
 
 export type Side = 'left' | 'right'
 export type ThemeChoice = 'dark' | 'light' | 'system'
@@ -28,7 +28,7 @@ export interface Leaf {
   custom: boolean
   content: string
   category: string | null
-  /** epoch ms — used for "sort by date" */
+  /** epoch ms, used for "sort by date" */
   created: number
   /** Set on a "web" leaf: the URL shown (read-only) by the Quick Search bar. */
   url?: string
@@ -42,7 +42,7 @@ export interface Category {
 export interface Settings {
   theme: ThemeChoice
   font: string // editor font family, default "IBM Plex Mono"
-  fontSize: number // 11–22, default 14
+  fontSize: number // 11-22, default 14
   autosaveInterval: number // seconds: 10 | 30 | 60 | 300
   autosaveLocation: string // default "~/Journal/leaves"
   otherView: boolean

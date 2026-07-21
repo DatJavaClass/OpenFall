@@ -1,8 +1,5 @@
-// OpenFall — editable syntax-highlighting editor. A transparent <textarea> sits
-// over a tokenized <pre> overlay (kept scroll-synced), so you can WRITE code/notes
-// and see live highlighting. Used for content-detected code leaves (named .js/.ts
-// leaves still use the read-only examiner). The two layers share identical box
-// metrics so the highlight lines up exactly with what you type.
+/* Editable highlighter: transparent textarea over a tokenized pre.
+   Layers share box metrics and stay scroll-synced. */
 import { useRef } from 'react'
 import type { UIEvent } from 'react'
 import { useLeavesStore } from '../state/leavesStore'
@@ -29,7 +26,7 @@ export function HighlightEditor({
   settings: Settings
   onCaret?: (c: Caret) => void
   onScrollTop?: (top: number) => void
-  /** Reports the caret's character offset (so the pane can restore it on a swap). */
+  /** Caret offset; pane restores it on swap. */
   onOffset?: (offset: number) => void
 }) {
   const preRef = useRef<HTMLPreElement>(null)

@@ -1,5 +1,5 @@
-// OpenFall — leaf auto-naming + file-kind detection. Pure, dependency-free.
-// Ported from docs/design/reference/auto-name.js.
+/* OpenFall: leaf auto-naming + file-kind detection. Pure, dependency-free.
+   Ported from docs/design/reference/auto-name.js. */
 import type { Leaf, Kind, Side } from '../types'
 
 /**
@@ -34,19 +34,19 @@ export const isCodeLeaf = (name: string): boolean => /\.(js|jsx|ts|mjs|cjs)$/i.t
 /**
  * Heuristic: does this leaf's *content* look like source code (so a plain note
  * should switch to live syntax highlighting even without a code extension)?
- * Conservative — requires several strong signals so ordinary prose never trips it.
+ * Conservative: requires several strong signals so ordinary prose never trips it.
  */
 export function looksLikeCode(text: string): boolean {
   const t = text || ''
   if (t.trim().length < 12) return false
   const lines = t.split('\n').filter((l) => l.trim())
   let score = 0
-  // code keywords anywhere (lowercase — prose tends to capitalise)
+  // code keywords anywhere (lowercase; prose tends to capitalise)
   if (/\b(function|const|let|var|class|return|import|export|def|func|public|private|static|void|struct|enum|include|namespace|package)\b/.test(t)) score++
   // a line ends in ; { }
   if (/[;{}]\s*$/m.test(t)) score++
-  // lines that START with a control word or type — case-sensitive, so prose's
-  // capitalised "If"/"For" don't count; covers brace-less scripts (import/int/for…)
+  /* lines that START with a control word or type, case-sensitive so prose's
+     capitalised "If"/"For" don't count; covers brace-less scripts (import/int/for…) */
   const codeStart =
     /^[ \t]*(if|else|elif|for|foreach|while|switch|case|do|try|catch|return|import|export|from|public|private|protected|static|void|int|long|short|float|double|string|str|bool|boolean|char|byte|var|let|const|class|def|func|fn|struct|enum)\b/
   if (lines.filter((l) => codeStart.test(l)).length >= 1) score++
@@ -57,8 +57,8 @@ export function looksLikeCode(text: string): boolean {
   // symbol density
   const punct = (t.match(/[{}();=<>]/g) || []).length
   if (punct / t.length > 0.04) score++
-  // ≥2 independent signals — catches structured code AND brace-less scripts, while
-  // ordinary prose rarely trips two (a code keyword + a lowercase code line-start).
+  /* ≥2 independent signals, catches structured code AND brace-less scripts, while
+     ordinary prose rarely trips two (a code keyword + a lowercase code line-start). */
   return score >= 2
 }
 

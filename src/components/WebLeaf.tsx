@@ -1,7 +1,5 @@
-// OpenFall — a "web" leaf (from the Quick Search bar). In the desktop app it hosts
-// a locked-down Electron <webview> (no address bar, no back/forward — it is what it
-// says it is). In the portable/web client, search engines block embedding, so it
-// opens the results in a new browser tab instead.
+/* Web leaf from Quick Search; Electron hosts a locked <webview>.
+   Web client can't embed, so it opens a browser tab. */
 import { createElement, useEffect } from 'react'
 import { isElectron } from '../platform/adapter'
 import { useUiStore } from '../state/uiStore'

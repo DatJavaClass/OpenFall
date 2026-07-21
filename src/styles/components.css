@@ -1,7 +1,6 @@
-/* OpenFall — component styling. Structural/static here; highly dynamic bits
-   (ribbon transforms, active states) are inline in the components. */
+/* Component styling; dynamic bits are inline in the components. */
 
-/* ---------- window column ---------- */
+/* Window column */
 .of-col {
   position: relative;
   z-index: 1;
@@ -13,7 +12,7 @@
   background: var(--bg);
 }
 
-/* ---------- title bar ---------- */
+/* Title bar */
 .of-titlebar {
   height: 38px;
   flex: none;
@@ -56,7 +55,7 @@ textarea { -webkit-app-region: no-drag; }
 .of-win-btn:hover { background: var(--chrome2); }
 .of-win-btn.of-close:hover { background: #b6443a; color: #fff; }
 
-/* ---------- menu bar ---------- */
+/* Menu bar */
 .of-menubar {
   height: 32px; flex: none;
   display: flex; align-items: stretch;
@@ -97,15 +96,14 @@ textarea { -webkit-app-region: no-drag; }
 .of-menu-item:hover .shortcut { color: var(--accent-ink); }
 .of-menu-divider { height: 1px; background: var(--border); margin: 5px 8px; }
 
-/* ---------- toolbar ---------- */
+/* Toolbar */
 .of-toolbar {
   height: 34px; flex: none;
   display: flex; align-items: center; gap: 3px;
   padding: 0 8px;
   background: var(--chrome);
   border-bottom: 1px solid var(--border);
-  /* overflow:visible so the Categories/Join/Sort dropdowns (which drop BELOW the
-     bar) are not clipped. On a normal-width window the buttons all fit. */
+  /* overflow:visible so dropdowns below the bar aren't clipped. */
   overflow: visible;
 }
 .of-theme-toggle { cursor: pointer; }
@@ -136,7 +134,7 @@ textarea { -webkit-app-region: no-drag; }
   padding: 6px; z-index: 60; animation: ofFade .1s ease;
 }
 
-/* ---------- workspace + rails ---------- */
+/* Workspace + rails */
 .of-workspace { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .of-editor-area { flex: 1; min-height: 0; display: flex; padding: 12px; gap: 12px; }
 .of-divider { width: 1px; background: var(--border); flex: none; align-self: stretch; }
@@ -144,7 +142,7 @@ textarea { -webkit-app-region: no-drag; }
 .of-divider-drag:hover { background: var(--accent); }
 .of-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--faint); font: 13px 'IBM Plex Sans'; }
 
-/* search results — terminal (bottom dock) + list (inner-side tree) */
+/* Search results: terminal dock + list tree. */
 .of-results-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
 .of-results-toggle button { border: 0; background: transparent; color: var(--muted); font: 500 11px 'IBM Plex Sans'; padding: 3px 11px; cursor: pointer; }
 .of-results-toggle button.on { background: var(--accent); color: var(--accent-ink); }
@@ -187,7 +185,7 @@ textarea { -webkit-app-region: no-drag; }
   background: var(--bg); color: var(--text); font: 500 12px 'IBM Plex Sans'; padding: 1px 4px;
 }
 
-/* ---------- editor pane ---------- */
+/* Editor pane */
 .of-pane {
   flex: 1; min-width: 0; display: flex; flex-direction: column;
   background: var(--editor); border: 1px solid var(--border);
@@ -227,9 +225,7 @@ textarea { -webkit-app-region: no-drag; }
   white-space: pre; color: var(--text); min-height: 100%;
 }
 
-/* editable syntax highlighter: a transparent textarea over a scroll-synced
-   highlight overlay. Both layers share identical box metrics so the colored
-   tokens line up exactly under the caret. */
+/* Editable highlighter: transparent textarea over a synced overlay; shared metrics. */
 .of-hl { position: relative; flex: 1; min-width: 0; overflow: hidden; background: var(--editor); }
 .of-hl-layer {
   position: absolute; inset: 0; margin: 0; border: 0; box-sizing: border-box;
@@ -242,7 +238,7 @@ textarea { -webkit-app-region: no-drag; }
 .of-hl-layer.wrap { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
 .of-hl-layer.nowrap { white-space: pre; }
 
-/* ---------- status bar ---------- */
+/* Status bar */
 .of-statusbar {
   height: 26px; flex: none; display: flex; align-items: center; gap: 14px;
   padding: 0 12px; background: var(--chrome); border-top: 1px solid var(--border);
@@ -252,7 +248,7 @@ textarea { -webkit-app-region: no-drag; }
 .of-status-spacer { flex: 1; }
 .of-status-accent { color: var(--accent); }
 
-/* ---------- overlays / dialogs base ---------- */
+/* Overlays / dialogs base */
 .of-dialog-overlay {
   position: absolute; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center;
   background: var(--over); animation: ofFade .12s ease;
@@ -282,7 +278,7 @@ textarea { -webkit-app-region: no-drag; }
 .of-btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .of-btn:hover { border-color: var(--accent); }
 
-/* ---------- context menu ---------- */
+/* Context menu */
 .of-ctx {
   position: absolute; z-index: 90; min-width: 190px;
   background: var(--chrome2); border: 1px solid var(--border);
@@ -291,11 +287,10 @@ textarea { -webkit-app-region: no-drag; }
 }
 .of-ctx-head { font: 600 10.5px 'IBM Plex Sans'; text-transform: uppercase; letter-spacing: 1px; color: var(--faint); padding: 4px 8px; }
 
-/* ---------- animations ---------- */
+/* Animations */
 @keyframes ofFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes ofPulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
-/* On-brand "fall into place" settle when a leaf appears (creation / first load).
-   Animates the inner pill only, so it never fights the wrap's −7° rotate. */
+/* "Fall into place" settle on appear; inner pill only, spares the wrap rotate. */
 @keyframes ofSettle { from { opacity: 0; transform: translateY(-7px); } to { opacity: 1; transform: translateY(0); } }
 .of-leaf { animation: ofSettle .22s ease both; }
 
@@ -304,8 +299,7 @@ textarea { -webkit-app-region: no-drag; }
 .of-scroll::-webkit-scrollbar-thumb, .of-dialog-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
 .of-scroll::-webkit-scrollbar-track { background: transparent; }
 
-/* desktop window resize grips (Electron) — ride the visible body edges since the
-   real frameless window edges sit out in the transparent margin. */
+/* Resize grips (Electron) ride visible edges; real edges sit in the margin. */
 .of-resize { position: absolute; z-index: 40; -webkit-app-region: no-drag; }
 .of-resize.w { left: -3px; top: 42px; bottom: 14px; width: 8px; cursor: ew-resize; }
 .of-resize.e { right: -3px; top: 42px; bottom: 14px; width: 8px; cursor: ew-resize; }

@@ -1,6 +1,4 @@
-// OpenFall — the signature: angled bookmark "leaves" in two rails that overhang
-// the transparent window margin. −7° tilt pivoting on the inner edge; the active
-// leaf is wider/brighter with an accent inner border and bigger shadow.
+// Signature: angled bookmark "leaves" in two overhanging rails.
 import { useRef } from 'react'
 import type { CSSProperties } from 'react'
 import { useLeavesStore } from '../state/leavesStore'
@@ -11,13 +9,10 @@ import type { Leaf, Side } from '../types'
 const ROT = -7
 
 export function BookmarkRail({ side }: { side: Side }) {
-  // Leaves currently moved out into a Separate-View window are hidden from the
-  // main rails (they live in that window now) — no duplicates.
+  // Hide leaves held by a Separate-View window.
   const peers = useWindowsStore((s) => s.peers)
   const held = new Set(peers.filter((p) => p.separate && p.leafId).map((p) => p.leafId as string))
-  // Select the stable `leaves` reference and filter in render — selecting a
-  // freshly-filtered array would return a new snapshot each render (Zustand v5
-  // useSyncExternalStore → infinite loop).
+  // Filter in render; a fresh array loops Zustand v5.
   const leaves = useLeavesStore((s) => s.leaves).filter((l) => l.side === side && !held.has(l.id))
   return (
     <div className={'of-rail ' + side}>

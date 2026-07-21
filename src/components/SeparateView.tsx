@@ -1,7 +1,5 @@
-// OpenFall — Separate View: a focused window scoped to a single leaf (opened via
-// the toolbar ⧉). It shares the same persisted store as the main window; edits
-// sync both ways through persist.ts's BroadcastChannel. Join View can send it a
-// different leaf to display (onShow).
+/* Separate View: a window scoped to one leaf.
+   Shares the store; syncs via persist.ts BroadcastChannel. */
 import { useEffect, useState } from 'react'
 import { useLeavesStore } from '../state/leavesStore'
 import { getAdapter } from '../platform/adapter'
@@ -17,7 +15,7 @@ export function SeparateView({ leafId: initialLeafId }: { leafId: string }) {
   const leaf = useLeavesStore((s) => s.leaves.find((l) => l.id === leafId))
 
   useEffect(() => {
-    // Scope this window's "active" leaf so the editor + status reflect it.
+    // Scope this window's active leaf.
     if (useLeavesStore.getState().activeLeafId !== leafId) useLeavesStore.getState().selectLeaf(leafId)
   }, [leafId])
 
@@ -34,7 +32,7 @@ export function SeparateView({ leafId: initialLeafId }: { leafId: string }) {
   }, [])
 
   const ctl = (a: 'minimize' | 'maximize' | 'close') => () => getAdapter().windowControl(a)
-  // Return this leaf to the main window (it reappears in the main rails) and close.
+  // Return leaf to the main window, then close.
   const rejoin = () => {
     leaveWindow()
     getAdapter().windowControl('close')

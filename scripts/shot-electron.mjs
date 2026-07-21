@@ -1,6 +1,6 @@
-// OpenFall — attach to a running Electron app over CDP and screenshot it.
-// Launch the app with --remote-debugging-port=9222 first, then run this.
-// node scripts/shot-electron.mjs [cdpUrl] [outPath]
+/* OpenFall: attach to a running Electron app over CDP and screenshot it.
+   Launch the app with --remote-debugging-port=9222 first, then run this.
+   node scripts/shot-electron.mjs [cdpUrl] [outPath] */
 import { chromium } from 'playwright'
 
 const cdp = process.argv[2] || 'http://localhost:9222'

@@ -1,5 +1,4 @@
-/* OpenFall — base layout. Component-level styles live alongside their modules
-   or are appended here as the app grows. */
+/* Base layout; component styles live with their modules. */
 
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; margin: 0; padding: 0; }
@@ -17,24 +16,18 @@ body {
 
 #root { position: relative; }
 
-/* The whole app sits on a transparent backdrop. In the browser/dev build we
-   paint a checkerboard to *represent* transparency; in Electron the OS window is
-   genuinely transparent and the checkerboard is hidden (body[data-platform=electron]). */
+/* Backdrop: web paints a checkerboard for transparency; Electron hides it. */
 .of-root { position: fixed; inset: 0; }
 
 .of-backdrop {
   position: absolute;
   inset: 0;
-  /* Web/portable has no real OS transparency, so paint a calm solid desktop tone
-     instead of the checkerboard placeholder. Hidden under real Electron
-     transparency (body[data-platform=electron]). */
+  /* Solid desktop tone for web; hidden under Electron transparency. */
   background: linear-gradient(155deg, var(--check1), var(--check2));
 }
 body[data-platform="electron"] .of-backdrop { display: none; }
 
-/* Window geometry. Web/portable uses smaller margins (no real transparency to
-   fill there → more room for the editor, esp. with Other View); Electron gets the
-   full overhang under real OS transparency. */
+/* Window geometry: web uses smaller margins, Electron the full overhang. */
 :root {
   --inset-x: 114px;
   --inset-y: 16px;
@@ -48,9 +41,7 @@ body[data-platform="electron"] {
   --overhang: 122px;
 }
 
-/* The program body: a rounded rectangle inset from the window bounds so the
-   bookmark rails can overhang into the margin. overflow:visible is essential —
-   the ribbons must not be clipped. */
+/* Inset rounded body; overflow:visible so rails overhang unclipped. */
 .of-window {
   position: absolute;
   left: var(--inset-x);
@@ -66,11 +57,11 @@ body[data-platform="electron"] {
   overflow: visible;
 }
 
-/* Separate View: a focused single-leaf window — thin margin, no rails. */
+/* Separate View: single-leaf window, thin margin, no rails. */
 .of-window-sep { left: 10px; right: 10px; top: 10px; bottom: 10px; }
 
 button { font-family: inherit; }
 input, textarea { font-family: inherit; }
 
-/* Hidden scrollbars where the design calls for a clean edge; real panes opt in. */
+/* Hidden scrollbars for clean edges; panes opt in. */
 .of-noscroll::-webkit-scrollbar { width: 0; height: 0; }

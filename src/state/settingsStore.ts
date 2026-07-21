@@ -1,4 +1,4 @@
-// OpenFall — persisted settings (theme, fonts, autosave, toggles, file assoc).
+// OpenFall: persisted settings (theme, fonts, autosave, toggles, file assoc).
 import { create } from 'zustand'
 import type { Settings, ThemeChoice } from '../types'
 import { DEFAULT_SETTINGS } from '../lib/seed'

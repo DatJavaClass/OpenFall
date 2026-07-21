@@ -1,5 +1,5 @@
-// OpenFall — scripted visual verification of search results + light theme.
-// Run with the dev server up: node scripts/verify-shots.mjs [outDir]
+/* OpenFall: scripted visual verification of search results + light theme.
+   Run with the dev server up: node scripts/verify-shots.mjs [outDir] */
 import { chromium } from 'playwright'
 
 const url = 'http://localhost:5173'
@@ -34,5 +34,5 @@ await p.click('.of-dialog-x')
 await p.waitForTimeout(300)
 await p.screenshot({ path: dir + 'openfall-light.png' })
 
-console.log(errs.length ? 'ERRORS:\n' + errs.join('\n') : 'no errors — 3 shots saved')
+console.log(errs.length ? 'ERRORS:\n' + errs.join('\n') : 'no errors, 3 shots saved')
 await b.close()

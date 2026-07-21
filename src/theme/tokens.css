@@ -1,6 +1,5 @@
-/* OpenFall design tokens — authoritative hex values from the design handoff.
-   Default = dark. data-theme="light" on <html> swaps to light.
-   "Match system" is resolved in JS (prefers-color-scheme) → sets data-theme. */
+/* Design tokens. Default = dark; data-theme="light" swaps to light. */
+/* "Match system" is resolved in JS (prefers-color-scheme). */
 
 :root {
   /* surfaces */
@@ -26,13 +25,13 @@
   /* depth */
   --shadow: rgba(0, 0, 0, 0.45);
   --over: rgba(8, 6, 3, 0.55);            /* modal overlay */
-  /* transparency checkerboard (web/dev fallback — real OS transparency in Electron) */
+  /* transparency checkerboard (web/dev fallback; Electron is truly transparent) */
   --check1: #262320;
   --check2: #1b1813;
   /* terminal results panel */
   --terminal-bg: #0f0b07;
 
-  /* syntax-highlight token colors (code examiner) — theme-independent */
+  /* syntax-highlight token colors (code examiner); theme-independent */
   --tok-keyword: #d28fae;
   --tok-string: #9fb87a;
   --tok-number: #74b8b8;

@@ -7,7 +7,7 @@ import './styles/components.css'
 import './styles/dialogs.css'
 import { App } from './App'
 
-// Tag the platform so CSS can hide the checkerboard under real OS transparency.
+// Tag platform; CSS hides checkerboard under OS transparency.
 if (typeof window !== 'undefined' && (window as any).openfall?.isElectron) {
   document.body.setAttribute('data-platform', 'electron')
 }

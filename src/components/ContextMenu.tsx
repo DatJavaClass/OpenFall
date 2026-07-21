@@ -1,4 +1,4 @@
-// OpenFall — right-click-a-leaf context menu. The ONLY way to assign a category.
+// Leaf right-click menu; only way to assign category.
 import { useLeavesStore } from '../state/leavesStore'
 import { useUiStore } from '../state/uiStore'
 import { PALETTE } from '../lib/seed'

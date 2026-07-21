@@ -1,7 +1,5 @@
-// OpenFall bundles its fonts locally (offline desktop app — no Google Fonts at
-// runtime). @fontsource ships the woff2 files; these side-effect imports inject
-// the @font-face rules and let Vite fingerprint + (for the portable build) inline
-// the font assets.
+/* Local woff2 fonts for offline use.
+   Side-effect imports inject the @font-face rules. */
 import '@fontsource/ibm-plex-sans/400.css'
 import '@fontsource/ibm-plex-sans/500.css'
 import '@fontsource/ibm-plex-sans/600.css'

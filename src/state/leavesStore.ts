@@ -1,4 +1,4 @@
-// OpenFall — leaves (open documents), active selection, and categories.
+// OpenFall: leaves (open documents), active selection, and categories.
 import { create } from 'zustand'
 import type { Category, Leaf, SortDirection, SortMode } from '../types'
 import { deriveLeafName, nextSide } from '../lib/leafName'

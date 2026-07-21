@@ -1,6 +1,6 @@
-// OpenFall — persistence orchestration: hydrate stores on boot, autosave on the
-// configured interval, keep the "Saved Ns" clock and theme in sync. Stores stay
-// pure; this module is the only place that talks to the platform adapter.
+/* OpenFall: persistence orchestration: hydrate stores on boot, autosave on the
+   configured interval, keep the "Saved Ns" clock and theme in sync. Stores stay
+   pure; this module is the only place that talks to the platform adapter. */
 import { getAdapter } from '../platform/adapter'
 import { useSettingsStore } from './settingsStore'
 import { useLeavesStore } from './leavesStore'
@@ -74,7 +74,7 @@ export async function hydrate(): Promise<void> {
   if (snap && Array.isArray(snap.leaves) && snap.leaves.length) {
     applySnapshot(snap)
   } else {
-    // First run — seed the sample journal so the app is immediately explorable.
+    // First run: seed the sample journal so the app is immediately explorable.
     applySnapshot({
       leaves: SEED_LEAVES,
       activeLeafId: 't7',

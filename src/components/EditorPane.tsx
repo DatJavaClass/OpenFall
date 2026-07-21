@@ -1,5 +1,4 @@
-// OpenFall — editor pane: header (+ code legend), synced line-number gutter,
-// ruled-paper textarea, and the read-only syntax-highlighted code examiner.
+// Editor pane: header, gutter, textarea, code examiner.
 import { useEffect, useRef } from 'react'
 import type { CSSProperties, UIEvent } from 'react'
 import { useLeavesStore } from '../state/leavesStore'
@@ -50,8 +49,7 @@ export function EditorPane({
   const prev = useRef({ id: '', detected: false })
 
   const named = isCodeLeaf(leaf.name) // .js/.ts → read-only examiner
-  // A leaf is treated as (editable) code when its category is Code/Script OR its
-  // content looks like code. Setting the category is the reliable manual override.
+  // Editable code: category Code/Script or content sniffed.
   const byCategory = leaf.category === 'Code' || leaf.category === 'Script'
   const detected = !named && (byCategory || looksLikeCode(leaf.content))
   const code = named || detected
@@ -66,8 +64,7 @@ export function EditorPane({
     if (gutterInner.current) gutterInner.current.style.transform = `translateY(${-top}px)`
   }
 
-  // Preserve focus + caret when a leaf swaps between the plain and highlight
-  // editors as its content crosses the code-detection threshold.
+  // Preserve focus + caret across editor swap.
   useEffect(() => {
     if (prev.current.id === leaf.id && prev.current.detected !== detected) {
       const ta = bodyRef.current?.querySelector('textarea')

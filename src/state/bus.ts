@@ -1,8 +1,8 @@
-// OpenFall — cross-window message bus. Transport is a localStorage key + the
-// `storage` event, which fires across same-origin windows on http(s), app://
-// (Electron) AND file:// (the portable client) — unlike BroadcastChannel, which
-// does not deliver across null-origin file:// windows. The `storage` event only
-// fires in OTHER windows (never the writer), so there is no self-echo.
+/* OpenFall: cross-window message bus. Transport is a localStorage key + the
+   `storage` event, which fires across same-origin windows on http(s), app://
+   (Electron) AND file:// (the portable client), unlike BroadcastChannel, which
+   does not deliver across null-origin file:// windows. The `storage` event only
+   fires in OTHER windows (never the writer), so there is no self-echo. */
 export type BusMsg =
   | { t: 'saved' }
   | { t: 'who' }
@@ -31,8 +31,8 @@ if (typeof window !== 'undefined') {
 
 export function post(msg: BusMsg): void {
   try {
-    // The unique `s` guarantees the stored value changes every post so the
-    // `storage` event always fires, even for identical messages.
+    /* The unique `s` guarantees the stored value changes every post so the
+       `storage` event always fires, even for identical messages. */
     seq += 1
     localStorage.setItem(KEY, JSON.stringify({ s: `${WINDOW_ID}-${seq}`, m: msg }))
   } catch {

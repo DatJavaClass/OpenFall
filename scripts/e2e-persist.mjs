@@ -1,7 +1,7 @@
-// OpenFall — end-to-end autosave/restart check against the packaged Electron app.
-// Launch OpenFall.exe with --remote-debugging-port=9222, then:
-//   node scripts/e2e-persist.mjs write  <marker>   # new leaf, type marker, Ctrl+S
-//   node scripts/e2e-persist.mjs verify <marker>   # after restart: is the marker present?
+/* OpenFall: end-to-end autosave/restart check against the packaged Electron app.
+   Launch OpenFall.exe with --remote-debugging-port=9222, then:
+     node scripts/e2e-persist.mjs write  <marker>   # new leaf, type marker, Ctrl+S
+     node scripts/e2e-persist.mjs verify <marker>   # after restart: is the marker present? */
 import { chromium } from 'playwright'
 
 const mode = process.argv[2] || 'verify'

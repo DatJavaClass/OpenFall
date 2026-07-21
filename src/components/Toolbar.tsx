@@ -1,5 +1,4 @@
-// OpenFall — toolbar: leaf/file actions, view toggles, categories, sort, spell,
-// the Quick Search bar, and the always-saving status indicator.
+// Toolbar: actions, toggles, categories, sort, spell, quick search.
 import { useState } from 'react'
 import { useSettingsStore } from '../state/settingsStore'
 import { useUiStore } from '../state/uiStore'

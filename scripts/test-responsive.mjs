@@ -1,5 +1,5 @@
-// Prove the solo pane fills at ANY window size (no hardcoded width) + that the
-// Script category (not just Code) drives code coloring.
+/* Prove the solo pane fills at ANY window size (no hardcoded width) + that the
+   Script category (not just Code) drives code coloring. */
 import { chromium } from 'playwright'
 const file = 'file:///C:/Users/victo/Dropbox/Working/Projects/OpenFall/dist-portable/index.html'
 const b = await chromium.launch()

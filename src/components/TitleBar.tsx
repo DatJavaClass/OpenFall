@@ -1,4 +1,4 @@
-// OpenFall — title bar: logo, active-leaf name, app name, window controls.
+// Title bar: logo, leaf name, app name, window controls.
 import { useLeavesStore } from '../state/leavesStore'
 import { getAdapter } from '../platform/adapter'
 

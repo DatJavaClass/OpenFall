@@ -1,6 +1,6 @@
-// OpenFall — search results builder + sort comparators. Pure, dependency-free.
-// Ported from docs/design/reference/build-search-results.js and extended to
-// honor Match-case / Whole-word / Regex options (BEHAVIOR_SPEC → Search).
+/* OpenFall: search results builder + sort comparators. Pure, dependency-free.
+   Ported from docs/design/reference/build-search-results.js and extended to
+   honor Match-case / Whole-word / Regex options (BEHAVIOR_SPEC → Search). */
 import type {
   Leaf,
   SearchGroup,
@@ -84,8 +84,7 @@ export function buildSearchResults(
 }
 
 export function summarize(results: SearchGroup[]): string {
-  let matchCount = 0
-  let leafCount = 0
+  let matchCount = 0, leafCount = 0
   results.forEach((g) =>
     g.leaves.forEach((l) => {
       leafCount++
@@ -125,9 +124,9 @@ export const sortComparators: Record<SortMode, Cmp> = {
   date: (a, b) => (b.created || 0) - (a.created || 0), // newest first
   alpha: (a, b) => a.name.localeCompare(b.name),
   size: (a, b) => (b.content || '').length - (a.content || '').length, // largest first
-  // uncategorized (null) sorts LAST in natural order. Handle null explicitly —
-  // a string sentinel + localeCompare is unsafe (ICU collation orders '~' before
-  // letters, which would float nulls to the top).
+  /* uncategorized (null) sorts LAST in natural order. Handle null explicitly:
+     a string sentinel + localeCompare is unsafe (ICU collation orders '~' before
+     letters, which would float nulls to the top). */
   category: (a, b) => {
     if (a.category == null && b.category == null) return 0
     if (a.category == null) return 1

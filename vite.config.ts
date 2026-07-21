@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 import { viteSingleFile } from 'vite-plugin-singlefile'
 
 // BUILD_TARGET=singlefile produces a fully self-contained index.html (true
-// double-click portability — all JS/CSS/fonts inlined, runs from file://).
+// double-click portability: all JS/CSS/fonts inlined, runs from file://).
 const singlefile = process.env.BUILD_TARGET === 'singlefile'
 
 export default defineConfig({

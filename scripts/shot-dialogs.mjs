@@ -1,5 +1,5 @@
-// OpenFall — screenshot the Preferences + Find & Transform dialogs (dev server up).
-// node scripts/shot-dialogs.mjs [outDir]
+/* OpenFall: screenshot the Preferences + Find & Transform dialogs (dev server up).
+   node scripts/shot-dialogs.mjs [outDir] */
 import { chromium } from 'playwright'
 
 const url = 'http://localhost:5173'
@@ -30,5 +30,5 @@ await p.waitForSelector('.of-dialog')
 await p.waitForTimeout(300)
 await p.screenshot({ path: dir + 'openfall-find.png' })
 
-console.log(errs.length ? 'ERRORS:\n' + errs.join('\n') : 'no errors — 3 dialog shots saved')
+console.log(errs.length ? 'ERRORS:\n' + errs.join('\n') : 'no errors, 3 dialog shots saved')
 await b.close()

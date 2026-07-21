@@ -1,6 +1,5 @@
-// OpenFall — workspace: the editor pane(s) + Other-View split + the search
-// results docks (terminal at bottom, list on the inner side). Rails are rendered
-// by App at the window level so they can overhang the transparent margin.
+/* Workspace: editor pane(s), Other-View split, search docks.
+   Rails render at window level (App) to overhang the margin. */
 import { useEffect, useRef, useState } from 'react'
 import { useLeavesStore } from '../state/leavesStore'
 import { useSettingsStore } from '../state/settingsStore'
@@ -17,19 +16,18 @@ export function Workspace({ onCaret }: { onCaret: (c: Caret) => void }) {
   const otherLeafId = useUiStore((s) => s.otherLeafId)
   const resultsView = useUiStore((s) => s.resultsView)
 
-  // Leaves moved out into Separate-View windows aren't shown here.
+  // Hide leaves held by Separate-View windows.
   const peers = useWindowsStore((s) => s.peers)
   const held = new Set(peers.filter((p) => p.separate && p.leafId).map((p) => p.leafId as string))
   const visible = leaves.filter((l) => !held.has(l.id))
 
   const active = visible.find((l) => l.id === activeLeafId) ?? visible[0]
-  // No `?? active` fallback — if there's no DISTINCT second leaf, the Other-View
-  // pane simply doesn't render (it used to duplicate the active leaf).
+  // No `?? active` fallback; needs a distinct second leaf.
   const other =
     visible.find((l) => l.id === otherLeafId && l.id !== active?.id) ??
     visible.find((l) => l.id !== active?.id)
 
-  // If the active leaf was moved to another window, follow it to a visible one.
+  // Follow the active leaf if it moved windows.
   useEffect(() => {
     if (active && active.id !== activeLeafId) useLeavesStore.getState().selectLeaf(active.id)
   }, [active?.id, activeLeafId])

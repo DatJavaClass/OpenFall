@@ -5,7 +5,7 @@ import { DEFAULT_SETTINGS } from '../src/lib/seed'
 import { sortLeaves } from '../src/lib/search'
 import type { Leaf } from '../src/types'
 
-// ---- fixtures -------------------------------------------------------------
+// Fixtures
 const mk = (over: Partial<Leaf> = {}): Leaf => ({
   id: 'id',
   side: 'left',
@@ -23,14 +23,12 @@ const byId = (id: string) => leaves().find((l) => l.id === id)
 const settings = () => useSettingsStore.getState().settings
 
 beforeEach(() => {
-  // Pure reset of both stores so every test starts from a known, empty state.
+  // Reset both stores to a known empty state.
   useLeavesStore.getState().replace({ leaves: [], activeLeafId: null, categories: [] })
   useSettingsStore.getState().replace({ ...DEFAULT_SETTINGS, fileAssoc: { ...DEFAULT_SETTINGS.fileAssoc } })
 })
 
-// ===========================================================================
 // useLeavesStore
-// ===========================================================================
 describe('useLeavesStore.newLeaf', () => {
   it('appends an empty untitled leaf, selects it, and returns its id', () => {
     const id = useLeavesStore.getState().newLeaf()
@@ -47,14 +45,14 @@ describe('useLeavesStore.newLeaf', () => {
   })
 
   it('opens on the left rail when the rails are tied (0–0 and 1–1)', () => {
-    expect(byId(useLeavesStore.getState().newLeaf())!.side).toBe('left') // 0–0 tie
+    expect(byId(useLeavesStore.getState().newLeaf())!.side).toBe('left') // 0-0 tie
 
     useLeavesStore.getState().replace({
       leaves: [mk({ id: 'l1', side: 'left' }), mk({ id: 'r1', side: 'right' })],
       activeLeafId: 'l1',
       categories: [],
     })
-    expect(byId(useLeavesStore.getState().newLeaf())!.side).toBe('left') // 1–1 tie
+    expect(byId(useLeavesStore.getState().newLeaf())!.side).toBe('left') // 1-1 tie
   })
 
   it('opens on the rail with fewer leaves (right when left has more)', () => {
@@ -320,9 +318,7 @@ describe('useLeavesStore.replace', () => {
   })
 })
 
-// ===========================================================================
 // useSettingsStore
-// ===========================================================================
 describe('useSettingsStore.set', () => {
   it('sets an arbitrary key without clamping (contrast with zoom)', () => {
     useSettingsStore.getState().set('autosaveInterval', 60)

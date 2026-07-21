@@ -1,5 +1,5 @@
-// OpenFall — verify Separate View (web): the ⧉ button pops the active leaf into
-// its own window that shares the same store.
+/* OpenFall: verify Separate View (web): the ⧉ button pops the active leaf into
+   its own window that shares the same store. */
 import { chromium } from 'playwright'
 const dir = (process.argv[2] || '.').replace(/\\/g, '/').replace(/\/?$/, '/')
 const b = await chromium.launch()

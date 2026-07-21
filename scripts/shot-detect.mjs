@@ -1,5 +1,5 @@
-// OpenFall — verify content code-detection + editable highlighting (dev server up).
-// Types multi-line JS into a fresh leaf and checks nothing drops across the swap.
+/* OpenFall: verify content code-detection + editable highlighting (dev server up).
+   Types multi-line JS into a fresh leaf and checks nothing drops across the swap. */
 import { chromium } from 'playwright'
 
 const dir = (process.argv[2] || '.').replace(/\\/g, '/').replace(/\/?$/, '/')

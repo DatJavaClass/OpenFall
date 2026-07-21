@@ -1,6 +1,6 @@
-// OpenFall — platform seam. The renderer talks ONLY to a PlatformAdapter, so the
-// same React app runs as an Electron desktop client (real filesystem autosave) and
-// as the portable web client (localStorage + File System Access API).
+/* OpenFall: platform seam. The renderer talks ONLY to a PlatformAdapter, so the
+   same React app runs as an Electron desktop client (real filesystem autosave) and
+   as the portable web client (localStorage + File System Access API). */
 import type { PersistedSnapshot } from '../types'
 import { WebAdapter } from './webAdapter'
 import { ElectronAdapter } from './electronAdapter'
@@ -46,7 +46,7 @@ export interface PlatformAdapter {
   separateWindow(leafId: string): void
   /** Current OS window bounds (null on web). */
   getBounds(): Promise<Rect | null>
-  /** Resize/move the OS window (no-op on web — the browser handles resizing). */
+  /** Resize/move the OS window (no-op on web; the browser handles resizing). */
   setBounds(rect: Rect): void
   /** Print the given HTML via the OS/browser print dialog. */
   printContent(html: string): void

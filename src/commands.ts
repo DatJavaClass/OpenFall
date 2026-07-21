@@ -1,5 +1,5 @@
-// OpenFall — central command layer. Menus, toolbar buttons, and keyboard
-// shortcuts all dispatch through here so behavior stays consistent.
+/* OpenFall: central command layer. Menus, toolbar, and keyboard shortcuts all
+   dispatch through here so behavior stays consistent. */
 import { useLeavesStore } from './state/leavesStore'
 import { useSettingsStore } from './state/settingsStore'
 import { useUiStore } from './state/uiStore'
@@ -55,7 +55,7 @@ export const cmd = {
     getAdapter().printContent(convertLeaf(leaf, 'pdf').text)
     useUiStore.getState().closeMenus()
   },
-  /** Quick Search — open a web leaf showing results for the query. */
+  /** Quick Search: open a web leaf showing results for the query. */
   webSearch(query: string) {
     const q = query.trim()
     if (!q) return

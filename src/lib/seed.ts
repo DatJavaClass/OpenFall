@@ -1,6 +1,6 @@
-// OpenFall — seed/sample leaves, default categories, default settings, and small
-// factories. Ported from docs/design/reference/seed-data.js. Real users start
-// with one empty leaf; the seed set is used for first-run demo, dev, and tests.
+/* OpenFall: seed/sample leaves, default categories, default settings, and small
+   factories. Ported from docs/design/reference/seed-data.js. Real users start
+   with one empty leaf; the seed set is used for first-run demo, dev, and tests. */
 import type { Category, Leaf, Settings, Side } from '../types'
 
 export const SEED_CATEGORIES: Category[] = [
@@ -13,8 +13,8 @@ export const SEED_CATEGORIES: Category[] = [
 
 export const PALETTE = ['#8aa6d6', '#d6a95a', '#9fb87a', '#d28fae', '#74b8b8', '#cf9a45', '#c98f8f']
 
-// The set of basic text file types OpenFall reads (like Notepad/Notepad++).
-// Most default on; binary-ish (.dat) defaults off. Granular per-type + "Enable all".
+/* The set of basic text file types OpenFall reads (like Notepad/Notepad++).
+   Most default on; binary-ish (.dat) defaults off. Granular per-type + "Enable all". */
 export const DEFAULT_FILE_ASSOC: Record<string, boolean> = {
   '.txt': true, '.md': true, '.log': true, '.json': true, '.xml': true,
   '.csv': true, '.tsv': true, '.ini': true, '.cfg': true, '.conf': true,
@@ -44,8 +44,7 @@ export const DEFAULT_SETTINGS: Settings = {
 }
 
 // created timestamps spread out so "sort by date" is meaningful.
-const t0 = 1712000000000
-const day = 43200000
+const t0 = 1712000000000, day = 43200000
 
 export const SEED_LEAVES: Leaf[] = [
   // ---- left rail: journal ----

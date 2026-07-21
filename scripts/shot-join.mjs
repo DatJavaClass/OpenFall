@@ -1,5 +1,5 @@
-// OpenFall — verify Join View (web): open a Separate window, then from the main
-// window send a different leaf to it; the separate window should switch to it.
+/* OpenFall: verify Join View (web): open a Separate window, then from the main
+   window send a different leaf to it; the separate window should switch to it. */
 import { chromium } from 'playwright'
 const dir = (process.argv[2] || '.').replace(/\\/g, '/').replace(/\/?$/, '/')
 const b = await chromium.launch()

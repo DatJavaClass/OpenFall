@@ -1,4 +1,4 @@
-// OpenFall — status bar: kind, counts, Ln/Col, leaves open, encoding, theme.
+// Status bar: kind, counts, Ln/Col, leaves, encoding, theme.
 import { useLeavesStore } from '../state/leavesStore'
 import { useSettingsStore } from '../state/settingsStore'
 import { kindOf } from '../lib/leafName'

@@ -1,5 +1,5 @@
-// Full multi-window test on the PORTABLE file:// client: Separate View + Join View
-// + cross-window registry (storage-event bus).
+/* Full multi-window test on the PORTABLE file:// client: Separate View + Join View
+   + cross-window registry (storage-event bus). */
 import { chromium } from 'playwright'
 const file = 'file:///C:/Users/victo/Dropbox/Working/Projects/OpenFall/dist-portable/index.html'
 const b = await chromium.launch()

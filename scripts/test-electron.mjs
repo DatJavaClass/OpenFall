@@ -1,5 +1,5 @@
-// Verify the desktop app (launch electron with --remote-debugging-port=9222 first):
-// resize grips actually resize the OS window, + categories/theme/Separate work.
+/* Verify the desktop app (launch electron with --remote-debugging-port=9222 first):
+   resize grips actually resize the OS window, + categories/theme/Separate work. */
 import { chromium } from 'playwright'
 const browser = await chromium.connectOverCDP('http://localhost:9222')
 const ctx = browser.contexts()[0]

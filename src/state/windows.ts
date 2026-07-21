@@ -1,6 +1,6 @@
-// OpenFall — open-window registry behind Join View. Each window announces itself
-// on the bus; the Join dropdown lists the open Separate-View windows, and choosing
-// one sends the current leaf to it (it switches to display that leaf).
+/* OpenFall: open-window registry behind Join View. Each window announces itself
+   on the bus; the Join dropdown lists the open Separate-View windows, and choosing
+   one sends the current leaf to it (it switches to display that leaf). */
 import { create } from 'zustand'
 import { WINDOW_ID, post, subscribe, busAvailable, type BusMsg } from './bus'
 import { useLeavesStore } from './leavesStore'
@@ -25,8 +25,8 @@ export const useWindowsStore = create<WindowsState>((set) => ({
   selfLeafId: null,
   peers: [],
   refresh: () => {
-    // Re-solicit without clearing — the registry is kept live by hello/bye, and
-    // clearing would briefly un-hide moved leaves in the main rails.
+    /* Re-solicit without clearing; the registry is kept live by hello/bye, and
+       clearing would briefly un-hide moved leaves in the main rails. */
     post({ t: 'who' })
   },
 }))
@@ -52,16 +52,21 @@ export function initWindows(opts: {
   if (!busAvailable()) return () => {}
 
   const unsub = subscribe((m) => {
-    if (m.t === 'who') {
-      post(describeSelf())
-    } else if (m.t === 'hello') {
-      useWindowsStore.setState((st) => ({
-        peers: [...st.peers.filter((p) => p.id !== m.id), { id: m.id, separate: m.separate, leafId: m.leafId, name: m.name }],
-      }))
-    } else if (m.t === 'bye') {
-      useWindowsStore.setState((st) => ({ peers: st.peers.filter((p) => p.id !== m.id) }))
-    } else if (m.t === 'show' && m.to === WINDOW_ID) {
-      opts.onShow?.(m.leafId)
+    switch (m.t) {
+      case 'who':
+        post(describeSelf())
+        break
+      case 'hello':
+        useWindowsStore.setState((st) => ({
+          peers: [...st.peers.filter((p) => p.id !== m.id), { id: m.id, separate: m.separate, leafId: m.leafId, name: m.name }],
+        }))
+        break
+      case 'bye':
+        useWindowsStore.setState((st) => ({ peers: st.peers.filter((p) => p.id !== m.id) }))
+        break
+      case 'show':
+        if (m.to === WINDOW_ID) opts.onShow?.(m.leafId)
+        break
     }
   })
 
@@ -88,7 +93,7 @@ export function announceLeaf(leafId: string | null): void {
   if (busAvailable()) post(describeSelf())
 }
 
-/** Join View — send a leaf to another open window. */
+/** Join View: send a leaf to another open window. */
 export function sendLeafTo(targetId: string, leafId: string): void {
   post({ t: 'show', to: targetId, leafId })
 }

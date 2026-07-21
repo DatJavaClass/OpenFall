@@ -1,5 +1,5 @@
-// OpenFall — render the app icon (brass "OF" wordmark) to build/icon.png at 512px
-// using headless Chromium. electron-builder auto-detects build/icon.png.
+/* OpenFall: render the app icon (brass "OF" wordmark) to build/icon.png at 512px
+   using headless Chromium. electron-builder auto-detects build/icon.png. */
 import { chromium } from 'playwright'
 import { mkdirSync } from 'node:fs'
 

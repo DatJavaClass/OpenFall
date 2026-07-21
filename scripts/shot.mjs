@@ -1,5 +1,5 @@
-// OpenFall — dev screenshot helper for visual verification / regression.
-// Usage: node scripts/shot.mjs [url] [outPath] [waitMs]
+/* OpenFall: dev screenshot helper for visual verification / regression.
+   Usage: node scripts/shot.mjs [url] [outPath] [waitMs] */
 import { chromium } from 'playwright'
 
 const url = process.argv[2] || 'http://localhost:5173'

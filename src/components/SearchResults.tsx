@@ -1,5 +1,4 @@
-// OpenFall — search results in two mutually-exclusive presentations sharing one
-// `resultsView` value: Terminal (bottom console) and List (inner-side tree).
+// Search results: Terminal console or List tree.
 import { useState } from 'react'
 import { useUiStore } from '../state/uiStore'
 import { useLeavesStore } from '../state/leavesStore'

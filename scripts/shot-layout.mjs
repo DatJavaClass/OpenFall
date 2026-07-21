@@ -1,4 +1,4 @@
-// OpenFall — verify web layout: solid backdrop + reclaimed width, with Other View.
+// OpenFall: verify web layout: solid backdrop + reclaimed width, with Other View.
 import { chromium } from 'playwright'
 const dir = (process.argv[2] || '.').replace(/\\/g, '/').replace(/\/?$/, '/')
 const width = Number(process.argv[3] || 1100)

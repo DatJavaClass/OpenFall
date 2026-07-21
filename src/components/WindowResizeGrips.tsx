@@ -1,13 +1,10 @@
-// OpenFall — resize grips for the frameless desktop window. The OS window's real
-// edges sit out in the transparent margin (so the ribbons can overhang), which
-// makes them awkward to grab. These thin grips ride the VISIBLE body edges and
-// drive the OS window bounds via IPC. Electron only — the browser resizes itself.
+/* Resize grips for the frameless window; Electron only.
+   Real OS edges sit in the margin, so grips ride visible edges. */
 import type { MouseEvent as ReactMouseEvent } from 'react'
 import { getAdapter, isElectron } from '../platform/adapter'
 
 type Edge = 'e' | 'w' | 's' | 'se' | 'sw'
-const MIN_W = 420
-const MIN_H = 300
+const MIN_W = 420, MIN_H = 300
 
 export function WindowResizeGrips() {
   if (!isElectron()) return null

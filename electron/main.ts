@@ -1,17 +1,7 @@
-// OpenFall — Electron main process.
-//
-// Responsibilities:
-//   1. Build the signature *frameless + transparent* rounded desktop window. The
-//      bookmark "leaves" overhang a transparent margin, so real OS window
-//      transparency is the whole point (backgroundColor '#00000000' on Windows).
-//   2. Serve the built Vite renderer over a privileged `app://` scheme — this
-//      avoids the file:// ESM/CORS problem that breaks <script type="module">.
-//   3. Implement real-filesystem persistence + native dialogs behind the IPC
-//      contract consumed by src/platform/electronAdapter.ts (via preload.ts).
-//
-// Note: the electron tsconfig has rootDir "." so we deliberately do NOT import
-// from ../src (that trips TS6059 "not under rootDir"). We mirror only the
-// structural shapes we need below; the renderer owns the authoritative types.
+/* OpenFall: Electron main process. Frameless transparent window, an app:// static
+   server, and real-filesystem persistence behind the preload IPC contract.
+   tsconfig rootDir is ".", so never import from ../src (trips TS6059). The types
+   below mirror the renderer's structural shapes; the renderer owns the real ones. */
 
 import { app, BrowserWindow, protocol, ipcMain, dialog, Menu } from 'electron'
 import type { IpcMainInvokeEvent, IpcMainEvent } from 'electron'
@@ -19,9 +9,7 @@ import { promises as fs } from 'fs'
 import * as path from 'path'
 import * as os from 'os'
 
-// ---------------------------------------------------------------------------
 // Local, dependency-free mirrors of the renderer types (structural only).
-// ---------------------------------------------------------------------------
 type WindowAction = 'minimize' | 'maximize' | 'close'
 
 interface ExportFileOpts {
@@ -52,7 +40,7 @@ interface SnapshotLike {
   categories?: unknown[]
   settings?: { autosaveLocation?: string } & Record<string, unknown>
 }
-/** One row of `.openfall/index.json` — leaf metadata + its on-disk filename. */
+/** One row of `.openfall/index.json`: leaf metadata + on-disk filename. */
 interface IndexEntry {
   id: string
   side: string
@@ -64,16 +52,14 @@ interface IndexEntry {
   url?: string
 }
 
-// ---------------------------------------------------------------------------
 // Constants
-// ---------------------------------------------------------------------------
 const APP_SCHEME = 'app'
 const PLACEHOLDER_LOCATION = '~/Journal/leaves'
 const META_DIR = '.openfall'
 
 let distRoot = '' // absolute path to the built renderer (set on app ready)
 
-// The privileged scheme MUST be registered before app is ready.
+// Privileged scheme must register before app is ready.
 protocol.registerSchemesAsPrivileged([
   {
     scheme: APP_SCHEME,
@@ -81,9 +67,7 @@ protocol.registerSchemesAsPrivileged([
   },
 ])
 
-// ---------------------------------------------------------------------------
-// Renderer file server: app://local/<path> → <dist>/<path>
-// ---------------------------------------------------------------------------
+// Renderer file server: app://local/<path> to <dist>/<path>
 function contentTypeFor(filePath: string): string {
   switch (path.extname(filePath).toLowerCase()) {
     case '.html':
@@ -136,9 +120,7 @@ function registerAppProtocol(): void {
   })
 }
 
-// ---------------------------------------------------------------------------
 // Window
-// ---------------------------------------------------------------------------
 function createMainWindow(): BrowserWindow {
   const win = new BrowserWindow({
     width: 1120,
@@ -146,7 +128,7 @@ function createMainWindow(): BrowserWindow {
     minWidth: 680,
     minHeight: 460,
     icon: path.join(app.getAppPath(), 'build', 'icon.png'),
-    frame: false, // no native chrome — the renderer paints its own title bar
+    frame: false, // no native chrome; renderer paints its own title bar
     transparent: true, // signature look: leaves overhang a transparent margin
     backgroundColor: '#00000000', // required for real transparency on Windows
     resizable: true,
@@ -162,8 +144,7 @@ function createMainWindow(): BrowserWindow {
 
   // The renderer's title bar uses `-webkit-app-region: drag`.
   win.once('ready-to-show', () => win.show())
-  // Graceful fallback: some compositors delay ready-to-show for transparent
-  // windows — make sure the app still becomes visible.
+  // Fallback: some compositors delay ready-to-show for transparent windows.
   setTimeout(() => {
     if (!win.isDestroyed() && !win.isVisible()) win.show()
   }, 1500)
@@ -187,7 +168,7 @@ function appUrl(query = ''): string {
   return dev ? dev + query : `${APP_SCHEME}://local/index.html${query}`
 }
 
-/** Separate View — a smaller window scoped to one leaf via ?separate=<id>. */
+/** Separate View: a small window scoped to one leaf via ?separate=<id>. */
 function createSeparateWindow(leafId: string): void {
   const win = new BrowserWindow({
     width: 640,
@@ -215,9 +196,7 @@ function createSeparateWindow(leafId: string): void {
   void win.loadURL(appUrl(`?separate=${encodeURIComponent(leafId)}`))
 }
 
-// ---------------------------------------------------------------------------
-// Persistence (see docs/design/DATA_MODEL.md → "On-disk model")
-// ---------------------------------------------------------------------------
+// Persistence (see docs/design/DATA_MODEL.md, "On-disk model")
 function expandHome(p: string): string {
   if (p === '~') return os.homedir()
   if (p.startsWith('~/') || p.startsWith('~\\')) return path.join(os.homedir(), p.slice(2))
@@ -229,11 +208,9 @@ function defaultJournalDir(): string {
 }
 
 /**
- * Resolve settings.autosaveLocation → an absolute directory.
- *   - the shipped placeholder ("~/Journal/leaves"), empty, and a bare "~"
- *     map to the canonical default under Documents;
- *   - any other "~/…" path expands against $HOME;
- *   - absolute paths (what the directory picker returns) are used verbatim.
+ * Resolve settings.autosaveLocation to an absolute directory. Placeholder, empty,
+ * and bare "~" map to the default under Documents; other "~/" paths expand against
+ * $HOME; absolute paths (from the picker) are used verbatim.
  */
 function resolveAutosaveDir(location: string | undefined | null): string {
   const loc = (location ?? '').trim()
@@ -242,11 +219,7 @@ function resolveAutosaveDir(location: string | undefined | null): string {
   return loc
 }
 
-/**
- * Remembers the last autosave directory in userData. load() has no snapshot to
- * read settings.autosaveLocation from, so this pointer lets a custom location
- * survive a restart.
- */
+/** Remembers the last autosave dir in userData so a custom location survives restart. */
 function pointerFile(): string {
   return path.join(app.getPath('userData'), 'openfall-autosave.json')
 }
@@ -298,8 +271,7 @@ async function saveSnapshot(raw: SnapshotLike): Promise<void> {
     }
   }
 
-  // Assign filenames in two passes so stable (reused) names always win, even if
-  // a freshly-minted slug would otherwise collide with one.
+  // Two passes so stable (reused) names win over fresh slugs.
   const used = new Set<string>()
   const fileByLeafId = new Map<string, string>()
   for (const leaf of leaves) {
@@ -338,8 +310,7 @@ async function saveSnapshot(raw: SnapshotLike): Promise<void> {
   await writeJson(path.join(metaDir, 'categories.json'), snapshot.categories ?? [])
   await writeJson(path.join(metaDir, 'active.json'), { activeLeafId: snapshot.activeLeafId ?? null })
 
-  // Prune OpenFall-managed leaf files (tracked by the previous index) that are
-  // no longer present. We never touch files OpenFall did not write.
+  // Prune managed leaf files no longer present. Never touch foreign files.
   for (const f of prevFiles) {
     if (!used.has(f)) await fs.rm(path.join(dir, f), { force: true }).catch(() => {})
   }
@@ -383,7 +354,7 @@ async function loadSnapshot(): Promise<SnapshotLike | null> {
       try {
         content = await fs.readFile(path.join(dir, e.file), 'utf8')
       } catch {
-        content = '' // file missing/unreadable — keep the leaf, lose its body
+        content = '' // file missing; keep the leaf, lose its body
       }
       leaves.push({
         id: e.id,
@@ -408,9 +379,7 @@ async function loadSnapshot(): Promise<SnapshotLike | null> {
   }
 }
 
-// ---------------------------------------------------------------------------
 // Native dialogs / export
-// ---------------------------------------------------------------------------
 function saveDialog(parent: BrowserWindow | null, options: Electron.SaveDialogOptions) {
   return parent ? dialog.showSaveDialog(parent, options) : dialog.showSaveDialog(options)
 }
@@ -421,8 +390,8 @@ function openDialog(parent: BrowserWindow | null, options: Electron.OpenDialogOp
 async function exportFile(opts: ExportFileOpts, parent: BrowserWindow | null): Promise<ExportFileResult> {
   try {
     if (opts.needsPrint) {
-      // Render the provided HTML in a hidden window, then print it to PDF. A
-      // temp file (rather than a data: URL) avoids URL-length/encoding limits.
+      /* Render the provided HTML in a hidden window, then print it to PDF. A
+         temp file (rather than a data: URL) avoids URL-length/encoding limits. */
       const pdfWin = new BrowserWindow({
         show: false,
         webPreferences: { sandbox: true, contextIsolation: true, nodeIntegration: false },
@@ -479,9 +448,7 @@ async function openTextFile(
   }
 }
 
-// ---------------------------------------------------------------------------
 // IPC wiring (mirrors src/platform/preload.ts channel names)
-// ---------------------------------------------------------------------------
 function senderWindow(e: IpcMainInvokeEvent | IpcMainEvent): BrowserWindow | null {
   return BrowserWindow.fromWebContents(e.sender)
 }
@@ -489,8 +456,7 @@ function senderWindow(e: IpcMainInvokeEvent | IpcMainEvent): BrowserWindow | nul
 function registerIpc(): void {
   ipcMain.handle('of:load', () => loadSnapshot())
   ipcMain.handle('of:save', async (_e, snapshot: SnapshotLike) => {
-    // Best-effort like the web adapter: never reject the renderer's autosave —
-    // a transient failure (locked dir, full disk) retries on the next tick.
+    // Best-effort: never reject autosave; a transient failure retries next tick.
     try {
       await saveSnapshot(snapshot)
     } catch (err) {
@@ -533,20 +499,22 @@ function registerIpc(): void {
   ipcMain.on('of:winctl', (e, action: WindowAction) => {
     const win = senderWindow(e)
     if (!win) return
-    if (action === 'minimize') {
-      win.minimize()
-    } else if (action === 'maximize') {
-      if (win.isMaximized()) win.unmaximize()
-      else win.maximize()
-    } else if (action === 'close') {
-      win.close()
+    switch (action) {
+      case 'minimize':
+        win.minimize()
+        break
+      case 'maximize':
+        if (win.isMaximized()) win.unmaximize()
+        else win.maximize()
+        break
+      case 'close':
+        win.close()
+        break
     }
   })
 }
 
-// ---------------------------------------------------------------------------
 // App lifecycle
-// ---------------------------------------------------------------------------
 app.whenReady().then(() => {
   // Robust in both dev (`electron .` → project root) and packaged (app.asar).
   distRoot = path.join(app.getAppPath(), 'dist')
